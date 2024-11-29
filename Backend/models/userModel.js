@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        select:false
+        Select: false
     },
     socketId: {
         type: String,
@@ -29,8 +29,8 @@ const userSchema = new mongoose.Schema({
 })
 
 // generate token for user
-userSchema.methods.generateToken = () => {
-    const token = jwt.sign({ _id: this._id }, process.env.SECRET_KEY);
+userSchema.methods.generateAuthToken = () => {
+    const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET_KEY);
     return token;
 }
 userSchema.methods.comparePassword = async (password) =>{

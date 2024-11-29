@@ -9,6 +9,8 @@ const app = express();
 const cors = require('cors');
 const connectDB = require('./database/connectDB');
 
+const userRoute = require('./routes/user.route');
+
 
 
 // require Packages end here 
@@ -16,6 +18,12 @@ const connectDB = require('./database/connectDB');
 
 app.use(cors());
 connectDB();
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use('/user', userRoute);
+
+
+
 // app.use end here 
 
 // routers of index 
