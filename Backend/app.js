@@ -10,7 +10,7 @@ const cors = require('cors');
 const connectDB = require('./database/connectDB');
 const cookieParser = require('cookie-parser');
 const userRoute = require('./routes/user.route');
-
+const captainRoute = require('./routes/captain.route');
 
 
 // require Packages end here 
@@ -22,7 +22,7 @@ app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use('/user', userRoute);
-
+app.use('/captain', captainRoute);
 
 
 // app.use end here 
