@@ -66,9 +66,28 @@ module.exports.loginCaptain = async (req, res, next)=> {
     }
 try {
     const token = await captain.generateAuthToken(captain._id);
+    res.cookie('token', token);
     res.status(200).json({token, captain});
     
 } catch (error) {
     console.log(error)
 }
+}
+
+module.exports.getCaptainProfile = async (req, res, next)=>{
+    res.status(201).json(req.captain);
+}
+
+module.exports.logoutcaptain = async (req,res ,next)=>{
+    res.clearCookie('token');
+
+    try {
+    const token = req.cookies.token || req.headers.authorization.split(' ')[ 1 ];
+
+    await blacklistedToken.create({token});
+    res.status(200).json("Logout Success");
+        
+    } catch (error) {
+        res.status(400).json("Internal Server Error")
+    }
 }
