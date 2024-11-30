@@ -19,4 +19,12 @@ router.post('/create', [
 captainController.registerCaptain
 );
 
+router.post('/loginCaptain', [
+    body('email').isEmail().withMessage('Invalid email'),
+    body('password').not().isEmpty().withMessage('Password is required'),
+    ], 
+    captainController.loginCaptain
+)
+
+
 module.exports = router;

@@ -12,7 +12,10 @@ if(!errors.isEmpty()){
 }
 
 const {fullname, email, password} = req.body;
-
+const isUserExists = await userModel.findOne({email});
+if(isUserExists){
+    return res.status(400).json({message: 'user already exists'});
+}
 const hashPassword = await userModel.hashPassword(password);
 
 const user = await userService.createUser({
@@ -49,7 +52,7 @@ module.exports.loginUser = async (req, res ,next)=>{
     if(!isMatch){
         return res.status(401).json('invalid email or password');
     }
-    console.log(user._id);
+
     
     const token = await user.generateAuthToken({userid:user._id});
 

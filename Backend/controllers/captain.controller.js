@@ -21,6 +21,11 @@ module.exports.registerCaptain = async (req, res ,next)=>{
         plateNumber,
         capacity} = req.body.vehicle;
 
+        const isCaptainExists = await captainModel.findOne({email});
+
+        if(isCaptainExists){
+            return res.status(402).json("captain already Exists");
+        }
    
 const hashPassword = await captainModel.hashPassword(password);
 
@@ -37,4 +42,33 @@ const hashPassword = await captainModel.hashPassword(password);
     
     const token = await captain.generateAuthToken(captain._id);
     res.status(200).json({token, captain});
+}
+
+module.exports.loginCaptain = async (req, res, next)=> {
+    const errors = validationResult(req);
+
+
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()});
+    }
+    const {email, password} = req.body;
+
+    const captain = await captainModel.findOne({email}).select('+password');
+
+    if(!captain){
+        return res.status(401).json("Invalid email or password");
+    }
+
+    const isMatch = await captain.comparePassword(password, captain.password);
+
+    if(!isMatch){
+        return res.status(401).json("Invalid email or password");
+    }
+try {
+    const token = await captain.generateAuthToken(captain._id);
+    res.status(200).json({token, captain});
+    
+} catch (error) {
+    console.log(error)
+}
 }
