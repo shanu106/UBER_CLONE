@@ -1,40 +1,15 @@
-<<<<<<< HEAD
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import {userDataContext} from '../context/UserContext';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
-=======
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { userDataContext } from '../context/UserContext'
->>>>>>> caba306 (user LOGIN SignUP Logout with frontEnd user Context)
 const UserLogin = () => {
   const [email, setemail] = useState('')
   const [password, setpassword] = useState('')
   const [userData, setuserData] = useState({})
-<<<<<<< HEAD
-  const [user, setuser] = useState(userDataContext);
+
+  const {user, setuser} = useState(userDataContext);
   const navigate = useNavigate();
-  const submitHandler = async (e) =>{
-    e.preventDefault();
-    const userData = {
-      email: email,
-      password: password
-    }
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/loginUser`,userData);
-
-    if(response.status == 201){
-      const data = response.data;
-      setuser(data.user);
-      localStorage.setItem('token',data.token);
-      navigate('/start');
-    }
-
-  const {user, setUser} = useContext(userDataContext)
-  const navigate = useNavigate()
+  
   const submitHandler = async (e) =>{
     e.preventDefault();
    
@@ -55,7 +30,7 @@ const UserLogin = () => {
       navigate('/')
     }
 
->>>>>>> caba306 (user LOGIN SignUP Logout with frontEnd user Context)
+
     setemail('');
     setpassword('');
   }

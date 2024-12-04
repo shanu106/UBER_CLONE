@@ -58,7 +58,7 @@ const CaptainSignUp = () => {
           <h3 className='text-xl mb-2 mt-6'>Password</h3>
           <input required value={password} onChange={(e)=>{
             setpassword(e.target.value)
-          }} className='bg-[#eeeeee] rounded-xl px-2 py-2 w-full border-2 outline-none placeholder:text-sm text-lg ' required  type="password" name="password" placeholder='Password' id="" />
+          }} className='bg-[#eeeeee] rounded-xl px-2 py-2 w-full border-2 outline-none placeholder:text-sm text-lg '   type="password" name="password" placeholder='Password' id="" />
           <h3 className='text-xl mb-2 mt-6'>Vehicle Information</h3>
           <div className='flex flex-wrap justify-between gap-2'>
             <input className='bg-[#eeeeee] w-[45%] rounded-xl outline-none px-2 py-2' placeholder='Vehicle Colour' type="text" name="" id="" />

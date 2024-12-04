@@ -1,10 +1,4 @@
 import React from 'react'
-<<<<<<< HEAD
-
-const Start = () => {
-  return (
-    <div>Start</div>
-=======
 import { Link } from 'react-router-dom'
 
 const Start = () => {
@@ -18,7 +12,6 @@ const Start = () => {
         </div>
       </div>
     </div>
->>>>>>> caba306 (user LOGIN SignUP Logout with frontEnd user Context)
   )
 }
 
