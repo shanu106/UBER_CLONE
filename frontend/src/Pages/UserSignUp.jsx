@@ -1,19 +1,35 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-
+import React, { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import {userDataContext} from '../context/UserContext'
+import Start  from './Start'
 const UserSignUp = () => {
     const [fullname, setfullname] = useState('')
     const [email, setemail] = useState('')
     const [password, setpassword] = useState('')
     const [userData, setuserData] = useState({})
-    const submitHandler = (e) =>{
+
+    const navigate = useNavigate();
+  const {user, setUser} = useContext(userDataContext)
+   
+    const submitHandler =  async (e) =>{
       e.preventDefault();
-      setuserData({
+    
+      const newUser = {
         fullname:fullname,
         email:email,
         password:password
-      })
-      setfullname('');
+      }
+    const response =   await axios.post(`${import.meta.env.VITE_BASE_URL}/user/register`,newUser)
+    if(response.status==200){
+      const data = response.data;
+      console.log(data.user)
+      setUser (data.user);
+      localStorage.setItem('token',data.token);
+      navigate('/start')
+    }
+    
+    setfullname('');
       setemail('');
       setpassword('');
     }
@@ -42,7 +58,7 @@ const UserSignUp = () => {
        <div className='px-2  h-72
        '>
         <p className='text-lg mt-4 w-full text-center'>Already have an account ? <Link className='text-sm text-blue-600' to='/user-login'>Log in here</Link></p>
-        <p className='text-xs mt-44'>By prodeeding, you consent to get calls, WhatApp or SMS messages, including by automated means, from Uber and its affiliates to the number provided.</p>
+        <p className='text-xs w-full text-center mt-44'>By prodeeding, you consent to get calls, WhatApp or SMS messages, including by automated means, from Uber and its affiliates to the number provided.</p>
         {/* <Link className='bg-green-500 mt-44 flex justify-center items-center text-white rounded-xl px-2 py-2 w-full  outline-none mt-8 placeholder:text-sm text-lg ' to='/captain-login' >Sign Up as Captain</Link> */}
        </div>
       </div>

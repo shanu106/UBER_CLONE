@@ -1,15 +1,29 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import {userDataContext} from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 const UserLogin = () => {
   const [email, setemail] = useState('')
   const [password, setpassword] = useState('')
   const [userData, setuserData] = useState({})
-  const submitHandler = (e) =>{
+  const [user, setuser] = useState(userDataContext);
+  const navigate = useNavigate();
+  const submitHandler = async (e) =>{
     e.preventDefault();
-    setuserData({
-      email:email,
-      password:password
-    })
+    const userData = {
+      email: email,
+      password: password
+    }
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/loginUser`,userData);
+
+    if(response.status == 201){
+      const data = response.data;
+      setuser(data.user);
+      localStorage.setItem('token',data.token);
+      navigate('/start');
+    }
     setemail('');
     setpassword('');
   }
@@ -34,7 +48,7 @@ const UserLogin = () => {
      <div className='px-2  h-72
      '>
       <p className='text-lg mt-4 w-full text-center'>New Here ? <Link className='text-sm text-blue-600' to='/user-signup'>Create new Account</Link></p>
-      <Link className='bg-green-500 mt-72 flex justify-center items-center text-white rounded-xl px-2 py-2 w-full  outline-none mt-8 placeholder:text-sm text-lg ' to='/captain-login' >Sign in as Captain</Link>
+      <Link className='bg-green-500 mt-72 flex justify-center items-center text-white rounded-xl px-2 py-2 w-full  outline-none  placeholder:text-sm text-lg ' to='/captain-login' >Sign in as Captain</Link>
      </div>
     </div>
   )

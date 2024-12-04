@@ -1,17 +1,31 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { CaptainDataContext } from '../context/CaptainContext'
+import axios from 'axios'
 
 const CaptainLogin = () => {
-
+  
     const [email, setemail] = useState('')
     const [password, setpassword] = useState('')
     const [capainData, setcaptainData] = useState({})
-    const submitHandler = (e) =>{
+    const [captain, setCaptain] = useState(CaptainDataContext);
+    const navigate = useNavigate();
+   
+   
+    const submitHandler = async (e) =>{
       e.preventDefault();
-      setcaptainData({
+      const captainData = {
         email:email,
         password:password
-      })
+      }
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captain/loginCaptain`,captainData);
+   
+    if(response.status==200){
+      const data = response.data;
+      localStorage.setItem('token',data.token);
+      setcaptainData(data.captain);
+      navigate('/captain-Home');
+    }
       setemail('');
       setpassword('');
     }
@@ -36,7 +50,7 @@ const CaptainLogin = () => {
        <div className='px-2  h-72
        '>
         <p className='text-lg mt-4 w-full text-center'>Join a fleet ? <Link className='text-sm text-blue-600' to='/captain-signup'>Register as Captain</Link></p>
-        <Link className='bg-[#d5622d] mt-72 flex justify-center items-center text-white rounded-xl px-2 py-2 w-full  outline-none mt-8 placeholder:text-sm text-lg ' to='/user-login' >Sign in as User</Link>
+        <Link className='bg-[#d5622d] mt-24 flex justify-center items-center text-white rounded-xl px-2 py-2 w-full  outline-none  placeholder:text-sm text-lg ' to='/user-login' >Sign in as User</Link>
        </div>
       </div>
     )
